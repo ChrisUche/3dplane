@@ -5,7 +5,7 @@ import { Cloud } from "./Cloud";
 import * as THREE from "three";
 import { useMemo } from "react";
 
-const LINE_NB_POINTS = 42;
+const LINE_NB_POINTS = 2000;
 
 export const Experience = () => {
   const curve = useMemo(() => {
@@ -33,9 +33,17 @@ export const Experience = () => {
   }, [curve]);
 
 
+  const shape = useMemo(() => {
+    const shape = new THREE.Shape();
+    shape.moveTo(0, -0.2);
+    shape.lineTo(0, 0.2);
+
+    return shape;
+  }, [curve]);
+
   return (
     <>
-      <OrbitControls />
+      <OrbitControls enableZoom={false}/>
       <Background />
       {/* wrap in a 'float' to create a flying sensation */}
       <Float floatIntensity={2} speed={2}>
@@ -43,16 +51,32 @@ export const Experience = () => {
       </Float>
 
       {/* Line */}
-      <Line 
-        points={linePoints}
-        color={"white"}
-        opacity={0.7}
-        transparent
-        lineWidth={16}
-      />
+      <group position-y={-2}>
+        {/* <Line 
+          points={linePoints}
+          color={"white"}
+          opacity={0.7}
+          transparent
+          lineWidth={16}
+        /> */}
+         <mesh>
+          <extrudeGeometry
+            args={[
+              shape,
+              {
+                steps: LINE_NB_POINTS,
+                bevelEnabled: false,
+                extrudePath: curve,
+              },
+            ]}
+          />
+          <meshStandardMaterial color={"white"} opacity={0.7} transparent/>
+          </mesh>
+      </group>
 
       <Cloud opacity={0.5} scale={[0.3, 0.3, 0.3]} position={[-2, 1, -3]} />
       <Cloud opacity={0.5} scale={[0.2, 0.3, 0.4]} position={[1.5, -0.5, -2]} />
+      <Cloud opacity={0.5} scale={[0.2, 0.3, 0.4]} position={[2.5, -1, -8]} />
       <Cloud
         opacity={0.7}
         scale={[0.3, 0.3, 0.4]}
