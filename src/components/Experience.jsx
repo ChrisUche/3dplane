@@ -6,7 +6,7 @@ import * as THREE from "three";
 import { useMemo, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 
-const LINE_NB_POINTS = 2000;
+const LINE_NB_POINTS = 12000;
 
 export const Experience = () => {
   const curve = useMemo(() => {
@@ -71,7 +71,16 @@ export const Experience = () => {
       )
     );
 
+    const targetCameraQuaternion = new THREE.Quaternion().setFromEuler(
+      new THREE.Euler(
+        cameraGroup.current.rotation.x,
+        angleRotation,
+        cameraGroup.current.rotation.z,
+      )
+    );
+
     airplane.current.quaternion.slerp(targetAirplaneQuaternion, delta * 2);
+    cameraGroup.current.quaternion.slerp(targetCameraQuaternion, delta * 2);
 
     cameraGroup.current.position.lerp(curPoint, delta * 24)
   });
