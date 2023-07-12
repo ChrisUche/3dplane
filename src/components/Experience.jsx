@@ -1,9 +1,10 @@
-import { Float, Line, OrbitControls } from "@react-three/drei";
+import { Float, Line, OrbitControls, PerspectiveCamera, useScroll } from "@react-three/drei";
 import { Background } from "./Background";
 import { Airplane } from "./Airplane";
 import { Cloud } from "./Cloud";
 import * as THREE from "three";
-import { useMemo } from "react";
+import { useMemo, useRef } from "react";
+import { useFrame } from "@react-three/fiber";
 
 const LINE_NB_POINTS = 2000;
 
@@ -41,14 +42,30 @@ export const Experience = () => {
     return shape;
   }, [curve]);
 
+  const cameraGroup = useRef();
+  const scroll = useScroll();
+
+  useFrame((_state, delta) => {
+    const curPointIndex = Math.min(
+      Math.round(scroll.offset * linePoints.length),
+      linePoints.length -1
+    );
+    const curPoint = linePoints[curPointIndex];
+
+    cameraGroup.current.position.lerp(curPoint, delta * 24)
+  });
+
   return (
     <>
-      <OrbitControls enableZoom={false}/>
-      <Background />
-      {/* wrap in a 'float' to create a flying sensation */}
-      <Float floatIntensity={2} speed={2}>
-        <Airplane rotation-y={Math.PI / 2} scale={[0.2, 0.2, 0.2]} position-y={0.1}/>
-      </Float>
+      {/* <OrbitControls enableZoom={false}/> */}
+      <group ref={cameraGroup}>
+        <Background />
+        <PerspectiveCamera position={[0, 0, 5]} fov={30} makeDefault />
+        {/* wrap in a 'float' to create a flying sensation */}
+        <Float floatIntensity={2} speed={2}>
+          <Airplane rotation-y={Math.PI / 2} scale={[0.2, 0.2, 0.2]} position-y={0.1}/>
+        </Float>
+      </group>
 
       {/* Line */}
       <group position-y={-2}>
