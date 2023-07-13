@@ -1,4 +1,4 @@
-import { Float, Line, OrbitControls, PerspectiveCamera, useScroll } from "@react-three/drei";
+import { Float, Line, OrbitControls, PerspectiveCamera, Text, useScroll } from "@react-three/drei";
 import { Background } from "./Background";
 import { Airplane } from "./Airplane";
 import { Cloud } from "./Cloud";
@@ -99,6 +99,42 @@ export const Experience = () => {
             <Airplane rotation-y={Math.PI / 2} scale={[0.2, 0.2, 0.2]} position-y={0.1}/>
           </Float>
         </group>
+      </group>
+      {/* Text */}
+      <group position={[-3, 0, -20]}>
+        <Text
+          color="white"
+          anchorX={"left"}
+          anchorY="middle"
+          fontSize={0.22}
+          maxWidth={2.5}
+        >
+          Abobi Welcome!{"\n"}
+          Show boys love while you're here
+        </Text>
+      </group>
+
+      <group position={[1, 0, -10]}>
+        <Text
+          color="white"
+          anchorX={"left"}
+          anchorY="center"
+          fontSize={0.52}
+          maxWidth={2.5}
+        >
+          Services
+        </Text>
+        <Text
+          color="white"
+          anchorX={"left"}
+          anchorY="top"
+          position-y={-0.66}
+          fontSize={0.22}
+          maxWidth={2.5}
+        >
+          Abobi Welcome!{"\n"}
+          Show boys love while you're here
+        </Text>
       </group>
 
       {/* Line */}
