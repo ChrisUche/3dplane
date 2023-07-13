@@ -7,22 +7,20 @@ import { useMemo, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 
 const LINE_NB_POINTS = 12000;
+const CURVE_DISTANCE = 250;
 
 export const Experience = () => {
   const curve = useMemo(() => {
     return new THREE.CatmullRomCurve3(
       [
         new THREE.Vector3(0, 0, 0),
-        new THREE.Vector3(0, 0, -10),
-        new THREE.Vector3(-2, 0, -20),
-        new THREE.Vector3(-3, 0, -30),
-        new THREE.Vector3(0, 0, -40),
-        new THREE.Vector3(5, 0, -50),
-        new THREE.Vector3(7, 0, -60),
-        new THREE.Vector3(5, 0, -70),
-        new THREE.Vector3(0, 0, -80),
-        new THREE.Vector3(0, 0, -90),
-        new THREE.Vector3(0, 0, -100),
+        new THREE.Vector3(0, 0, -CURVE_DISTANCE),
+        new THREE.Vector3(100, 0, -2 * CURVE_DISTANCE),
+        new THREE.Vector3(-100 , 0, -3 * CURVE_DISTANCE),
+        new THREE.Vector3(100, 0, -4 * CURVE_DISTANCE),
+        new THREE.Vector3(0, 0, -5 * CURVE_DISTANCE),
+        new THREE.Vector3(0, 0, -6 * CURVE_DISTANCE),
+        new THREE.Vector3(0, 0, -7 * CURVE_DISTANCE),
       ],
       false,
       "catmullrom",
@@ -89,19 +87,19 @@ export const Experience = () => {
 
   return (
     <>
-      {/* <OrbitControls enableZoom={false}/> */}
+      {/* <OrbitControls /> */}
       <group ref={cameraGroup}>
         <Background />
         <PerspectiveCamera position={[0, 0, 5]} fov={30} makeDefault />
         {/* wrap in a 'float' to create a flying sensation */}
         <group ref={airplane}>
-          <Float floatIntensity={2} speed={2}>
+          <Float floatIntensity={1} speed={1.5} rotationIntensity={0.5}>
             <Airplane rotation-y={Math.PI / 2} scale={[0.2, 0.2, 0.2]} position-y={0.1}/>
           </Float>
         </group>
       </group>
       {/* Text */}
-      <group position={[-3, 0, -20]}>
+      <group position={[-3, 0, -100]}>
         <Text
           color="white"
           anchorX={"left"}
@@ -114,7 +112,7 @@ export const Experience = () => {
         </Text>
       </group>
 
-      <group position={[1, 0, -10]}>
+      <group position={[-10, 1, -200]}>
         <Text
           color="white"
           anchorX={"left"}
@@ -161,22 +159,20 @@ export const Experience = () => {
           </mesh>
       </group>
 
-      <Cloud opacity={0.5} scale={[0.3, 0.3, 0.3]} position={[-2, 1, -3]} />
-      <Cloud opacity={0.5} scale={[0.2, 0.3, 0.4]} position={[1.5, -0.5, -2]} />
-      <Cloud opacity={0.5} scale={[0.2, 0.3, 0.4]} position={[2.5, -1, -8]} />
+      <Cloud opacity={0.5} scale={[0.3, 0.3, 0.3]} position={[-2, 1, -30]} />
+      <Cloud opacity={0.5} scale={[0.2, 0.3, 0.4]} position={[1.5, -0.5, -20]} />
+      <Cloud scale={[1, 1, 1.5]} position={[-3.5, -1.2, -7]} />
+      <Cloud scale={[1, 1, 2]} position={[3.5, -1, -10]}  rotation-y={Math.PI}/>
       <Cloud
-        opacity={0.7}
-        scale={[0.3, 0.3, 0.4]}
-        rotation-y={Math.PI / 9}
-        position={[2, -0.2, -2]}
+        scale={[1, 1, 1]}
+        rotation-y={Math.PI / 3}
+        position={[-3.5, -0.2, -12]}
       />
       <Cloud
-        opacity={0.7}
-        scale={[0.4, 0.4, 0.4]}
-        rotation-y={Math.PI / 9}
-        position={[1, -0.2, -12]}
+        scale={[1, 1, 1]}
+        position={[3.5, -0.2, -12]}
       />
-      <Cloud opacity={0.7} scale={[0.5, 0.5, 0.5]} position={[-1, 1, -53]} />
+      <Cloud opacity={0.7} scale={[0.4, 0.4, 0.4]} rotation-y={Math.PI / 9} position={[1, -0.2, -12]} />
       <Cloud opacity={0.3} scale={[0.8, 0.8, 0.8]} position={[0, 1, -100]} />
     </>
   );
