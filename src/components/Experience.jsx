@@ -8,6 +8,7 @@ import { useFrame } from "@react-three/fiber";
 
 const LINE_NB_POINTS = 12000;
 const CURVE_DISTANCE = 250;
+const CURVE_AHEAD_CAMERA = 0.008;
 
 export const Experience = () => {
   const curve = useMemo(() => {
@@ -43,44 +44,30 @@ export const Experience = () => {
   const cameraGroup = useRef();
   const scroll = useScroll();
 
+  // scroll and rotation algorithim
   useFrame((_state, delta) => {
-    const curPointIndex = Math.min(
-      Math.round(scroll.offset * linePoints.length),
-      linePoints.length -1
-    );
-    const curPoint = linePoints[curPointIndex];
-    const pointAhead =
-      linePoints[Math.min(curPointIndex + 1, linePoints.length - 1)];
+    const scrollOffset = Math.max(0, scroll.offset);
 
-    const xDisplacement = (pointAhead.x - curPoint.x) * 80;
+    const curPoint = curve.getPoint(scrollOffset);
 
-    // Math.PI / 2 -> LEFT
-    // -Math.PI / 2 -> RIGHT
-
-    const angleRotation =
-      (xDisplacement < 0 ? 1 : -1) *
-      Math.min(Math.abs(xDisplacement), Math.PI / 3);
-
-    const targetAirplaneQuaternion = new THREE.Quaternion().setFromEuler(
-      new THREE.Euler(
-        airplane.current.rotation.x,
-        airplane.current.rotation.y,
-        angleRotation,
-      )
-    );
-
-    const targetCameraQuaternion = new THREE.Quaternion().setFromEuler(
-      new THREE.Euler(
-        cameraGroup.current.rotation.x,
-        angleRotation,
-        cameraGroup.current.rotation.z,
-      )
-    );
-
-    airplane.current.quaternion.slerp(targetAirplaneQuaternion, delta * 2);
-    cameraGroup.current.quaternion.slerp(targetCameraQuaternion, delta * 2);
-
+    // follow the curve points
     cameraGroup.current.position.lerp(curPoint, delta * 24)
+
+    // Make the group look ahead on the curve
+
+    const lookAtPoint = curve.getPoint(Math.min(scrollOffset + CURVE_AHEAD_CAMERA, 1));
+
+    const currentLookAt = cameraGroup.current.getWorldDirection(
+      new THREE.Vector3()
+    );
+    const targetLookAt = new THREE.Vector3()
+    .subVectors(curPoint, lookAtPoint)
+    .normalize();
+
+    const lookAt = currentLookAt.lerp(targetLookAt, delta * 24);
+    cameraGroup.current.lookAt(
+      cameraGroup.current.position.clone().add(lookAt)
+    );
   });
 
   const airplane = useRef();
