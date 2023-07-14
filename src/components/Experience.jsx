@@ -5,10 +5,13 @@ import { Cloud } from "./Cloud";
 import * as THREE from "three";
 import { useMemo, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
+import { Group, Euler, Quaternion, Vector3 } from "three";
 
 const LINE_NB_POINTS = 12000;
 const CURVE_DISTANCE = 250;
 const CURVE_AHEAD_CAMERA = 0.008;
+const CURVE_AHEAD_AIRPLANE = 0.02;
+const AIRPLANE_MAX_ANGLE = 35;
 
 export const Experience = () => {
   const curve = useMemo(() => {
@@ -25,13 +28,13 @@ export const Experience = () => {
       ],
       false,
       "catmullrom",
-      0.5)
+      0.5
+    );
   }, []);
 
   const linePoints = useMemo(() => {
     return curve.getPoints(LINE_NB_POINTS);
   }, [curve]);
-
 
   const shape = useMemo(() => {
     const shape = new THREE.Shape();
@@ -39,35 +42,64 @@ export const Experience = () => {
     shape.lineTo(0, 0.2);
 
     return shape;
-  }, [curve]);
+  }, []);
 
   const cameraGroup = useRef();
   const scroll = useScroll();
 
-  // scroll and rotation algorithim
+  // scroll and rotation algorithm
   useFrame((_state, delta) => {
     const scrollOffset = Math.max(0, scroll.offset);
 
     const curPoint = curve.getPoint(scrollOffset);
 
     // follow the curve points
-    cameraGroup.current.position.lerp(curPoint, delta * 24)
+    cameraGroup.current.position.lerp(curPoint, delta * 24);
 
     // Make the group look ahead on the curve
-
     const lookAtPoint = curve.getPoint(Math.min(scrollOffset + CURVE_AHEAD_CAMERA, 1));
 
-    const currentLookAt = cameraGroup.current.getWorldDirection(
-      new THREE.Vector3()
-    );
-    const targetLookAt = new THREE.Vector3()
-    .subVectors(curPoint, lookAtPoint)
-    .normalize();
+    const currentLookAt = cameraGroup.current.getWorldDirection(new THREE.Vector3());
+    const targetLookAt = new THREE.Vector3().subVectors(curPoint, lookAtPoint).normalize();
 
     const lookAt = currentLookAt.lerp(targetLookAt, delta * 24);
-    cameraGroup.current.lookAt(
-      cameraGroup.current.position.clone().add(lookAt)
+    cameraGroup.current.lookAt(cameraGroup.current.position.clone().add(lookAt));
+
+    // Airplane rotation
+    const tangent = curve.getTangent(scrollOffset + CURVE_AHEAD_AIRPLANE);
+
+    const nonLerpLookAt = new Group();
+    nonLerpLookAt.position.copy(curPoint);
+    nonLerpLookAt.lookAt(nonLerpLookAt.position.clone().add(targetLookAt));
+
+    tangent.applyAxisAngle(new THREE.Vector3(0, 1, 0), -nonLerpLookAt.rotation.y);
+
+    let angle = Math.atan2(-tangent.z, tangent.x);
+    angle = -Math.PI / 2 + angle;
+
+    let angleDegrees = (angle * 180) / Math.PI;
+    angleDegrees *= 2.4;  // stronger angle
+
+    // LIMIT Plane Angle
+    if (angleDegrees < 0) {
+      angleDegrees = Math.max(angleDegrees, -AIRPLANE_MAX_ANGLE);
+    }
+
+    if (angleDegrees > 0) {
+      angleDegrees = Math.min(angleDegrees, AIRPLANE_MAX_ANGLE);
+    }
+
+    // Set Back Angle
+    angle = (angleDegrees * Math.PI) / 180;
+
+    const targetAirplaneQuaternion = new Quaternion().setFromEuler(
+      new Euler(
+        airplane.current.rotation.x,
+        airplane.current.rotation.y,
+        angle
+      )
     );
+    airplane.current.quaternion.slerp(targetAirplaneQuaternion, delta * 2);
   });
 
   const airplane = useRef();
@@ -81,7 +113,7 @@ export const Experience = () => {
         {/* wrap in a 'float' to create a flying sensation */}
         <group ref={airplane}>
           <Float floatIntensity={1} speed={1.5} rotationIntensity={0.5}>
-            <Airplane rotation-y={Math.PI / 2} scale={[0.2, 0.2, 0.2]} position-y={0.1}/>
+            <Airplane rotation-y={Math.PI / 2} scale={[0.2, 0.2, 0.2]} position-y={0.1} />
           </Float>
         </group>
       </group>
@@ -124,14 +156,14 @@ export const Experience = () => {
 
       {/* Line */}
       <group position-y={-2}>
-        {/* <Line 
+        {/* <Line
           points={linePoints}
           color={"white"}
           opacity={0.7}
           transparent
           lineWidth={16}
         /> */}
-         <mesh>
+        <mesh>
           <extrudeGeometry
             args={[
               shape,
@@ -142,23 +174,20 @@ export const Experience = () => {
               },
             ]}
           />
-          <meshStandardMaterial color={"white"} opacity={0.7} transparent/>
-          </mesh>
+          <meshStandardMaterial color={"white"} opacity={0.7} transparent />
+        </mesh>
       </group>
 
       <Cloud opacity={0.5} scale={[0.3, 0.3, 0.3]} position={[-2, 1, -30]} />
       <Cloud opacity={0.5} scale={[0.2, 0.3, 0.4]} position={[1.5, -0.5, -20]} />
       <Cloud scale={[1, 1, 1.5]} position={[-3.5, -1.2, -7]} />
-      <Cloud scale={[1, 1, 2]} position={[3.5, -1, -10]}  rotation-y={Math.PI}/>
+      <Cloud scale={[1, 1, 2]} position={[3.5, -1, -10]} rotation-y={Math.PI} />
       <Cloud
         scale={[1, 1, 1]}
         rotation-y={Math.PI / 3}
         position={[-3.5, -0.2, -12]}
       />
-      <Cloud
-        scale={[1, 1, 1]}
-        position={[3.5, -0.2, -12]}
-      />
+      <Cloud scale={[1, 1, 1]} position={[3.5, -0.2, -12]} />
       <Cloud opacity={0.7} scale={[0.4, 0.4, 0.4]} rotation-y={Math.PI / 9} position={[1, -0.2, -12]} />
       <Cloud opacity={0.3} scale={[0.8, 0.8, 0.8]} position={[0, 1, -100]} />
     </>
