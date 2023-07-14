@@ -12,7 +12,8 @@ export function Cloud({opacity, ...props}) {
     <group {...props} dispose={null}>
       <mesh geometry={nodes.Node.geometry}>
         <meshStandardMaterial 
-            {...materials['lambert2sg.001']} 
+            // {...materials['lambert2sg.001']} 
+            envMapIntensity={2} //math the coluds more impacted by the environment colors
             transparent 
             opacity={opacity}/>
       </mesh>
