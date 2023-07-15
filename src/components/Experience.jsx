@@ -13,6 +13,7 @@ const CURVE_DISTANCE = 250;
 const CURVE_AHEAD_CAMERA = 0.008;
 const CURVE_AHEAD_AIRPLANE = 0.02;
 const AIRPLANE_MAX_ANGLE = 35;
+const FRICTION_DISTANCE = 42;
 
 export const Experience = () => {
   
@@ -41,6 +42,7 @@ export const Experience = () => {
 
   const textSections = useMemo(() => {
     return [{
+      cameraRailDist: -1,
       position: new Vector3(
         curvePoints[1].x - 3,
         curvePoints[1].y,
@@ -50,7 +52,7 @@ export const Experience = () => {
 Have a seat and enjoy the ride!`,
     },
     {
-
+      cameraRailDist: 1.5,
       position: new Vector3(
         curvePoints[2].x + 2,
         curvePoints[2].y,
@@ -61,6 +63,7 @@ Have a seat and enjoy the ride!`,
 We have a wide range of beverages!`,
     },
     {
+      cameraRailDist: -1,
       position: new Vector3(
         curvePoints[3].x - 3,
         curvePoints[3].y,
@@ -70,7 +73,7 @@ We have a wide range of beverages!`,
       subtitle: `Our flight attendants will help you have a great journey`,
     },
     {
-
+      cameraRailDist: 1.5,
       position: new Vector3(
         curvePoints[4].x + 3.5,
         curvePoints[4].y,
@@ -96,10 +99,33 @@ We have a wide range of beverages!`,
   }, []);
 
   const cameraGroup = useRef();
+  const cameraRail = useRef();
   const scroll = useScroll();
 
   // scroll and rotation algorithm
   useFrame((_state, delta) => {
+    let resetCameraRail = true;
+    // Look to close text sections
+    textSections.forEach((textSection) =>{
+      const distance = textSection.position.distanceTo(
+        cameraGroup.current.position
+      );
+
+      if (distance < FRICTION_DISTANCE) {
+        const targetCameraRailPosition = new Vector3(
+          (1 - distance / FRICTION_DISTANCE) * textSection.cameraRailDist,
+          0,
+          0
+        );
+        cameraRail.current.position.lerp(targetCameraRailPosition, delta);
+        resetCameraRail = false;
+      }
+    });
+    if (resetCameraRail) {
+      const targetCameraRailPosition = new Vector3(0, 0, 0);
+      cameraRail.current.position.lerp(targetCameraRailPosition, delta);
+    }
+
     const scrollOffset = Math.max(0, scroll.offset);
 
     const curPoint = curve.getPoint(scrollOffset);
@@ -162,7 +188,9 @@ We have a wide range of beverages!`,
       {/* <OrbitControls /> */}
       <group ref={cameraGroup}>
         <Background />
-        <PerspectiveCamera position={[0, 0, 5]} fov={30} makeDefault />
+        <group ref={cameraRail}>
+          <PerspectiveCamera position={[0, 0, 5]} fov={30} makeDefault />
+        </group>
         {/* wrap in a 'float' to create a flying sensation */}
         <group ref={airplane}>
           <Float floatIntensity={1} speed={1.5} rotationIntensity={0.5}>
