@@ -1,4 +1,4 @@
-import React, { useMemo, useRef } from "react";
+import React, { useLayoutEffect, useMemo, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import { Float, PerspectiveCamera, useScroll } from "@react-three/drei";
 import { Group, Euler, Quaternion, Vector3 } from "three";
@@ -8,6 +8,7 @@ import { Background } from "./Background";
 import { Airplane } from "./Airplane";
 import { Cloud } from "./Cloud";
 import { TextSection } from "./TextSection";
+import { gsap } from "gsap";
 
 const LINE_NB_POINTS = 1000;
 const CURVE_DISTANCE = 250;
@@ -126,6 +127,8 @@ export const Experience = () => {
     }
 
     const scrollOffset = Math.max(0, scroll.offset);
+    tl.current.seek(scrollOffset * tl.current.duration()) //on scroll gradient changes
+
     const curPoint = curve.getPoint(scrollOffset);
 
         // follow the curve points
@@ -190,12 +193,40 @@ export const Experience = () => {
 
   const airplane = useRef();
 
+  const tl = useRef(); //to store our timeline
+  const backgroundColors = useRef({//to store background colors
+    colorA: "#357ca1",
+    colorB: "#ffad30",
+  });
+
+  useLayoutEffect(() => {
+    tl.current = gsap.timeline();
+
+    tl.current.to(backgroundColors.current, {
+      duration: 1,
+      colorA: "#09B1EC",
+      colorB: "white",
+    });
+    tl.current.to(backgroundColors.current, {
+      duration: 1,
+      colorA: "#357ca1",
+      colorB: "white",
+    });
+    tl.current.to(backgroundColors.current, {
+      duration: 1,
+      colorA: "#357ca1",
+      colorB: "#ffcc00",
+    });
+
+    tl.current.pause();
+  }, []);
+
   return (
     <>
       <directionalLight position={[0, 3, 1]} intensity={0.1} />
        {/* <OrbitControls /> */}
       <group ref={cameraGroup}>
-        <Background />
+        <Background  backgroundColors={backgroundColors} />
         <group ref={cameraRail}>
           <PerspectiveCamera position={[0, 0, 5]} fov={30} makeDefault />
         </group>
