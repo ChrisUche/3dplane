@@ -9,6 +9,7 @@ import { Airplane } from "./Airplane";
 import { Cloud } from "./Cloud";
 import { TextSection } from "./TextSection";
 import { gsap } from "gsap";
+import { Cloud2 } from "./Cloud2";
 
 const LINE_NB_POINTS = 1000;
 const CURVE_DISTANCE = 250;
@@ -269,10 +270,10 @@ export const Experience = () => {
         </mesh>
       </group>
       <Cloud opacity={0.5} scale={[0.3, 0.3, 0.3]} position={[-2, 1, -30]} />
-      <Cloud opacity={0.5} scale={[0.2, 0.3, 0.4]} position={[1.5, -0.5, -20]} />
-      <Cloud scale={[1, 1, 1.5]} position={[-3.5, -1.2, -7]} />
-      <Cloud scale={[1, 1, 2]} position={[3.5, -1, -10]} rotation-y={Math.PI} />
-      <Cloud
+      <Cloud2 opacity={0.5} scale={[0.2, 0.3, 0.4]} position={[1.5, -0.5, -20]} />
+      <Cloud2 scale={[1, 1, 1.5]} position={[-3.5, -1.2, -7]} />
+      <Cloud2 scale={[1, 1, 2]} position={[3.5, -1, -10]} rotation-y={Math.PI} />
+      <Cloud2
         scale={[1, 1, 1]}
         rotation-y={Math.PI / 3}
         position={[-3.5, -0.2, -12]}
