@@ -2,6 +2,7 @@ import { Canvas } from "@react-three/fiber";
 import { Experience } from "./components/Experience";
 import { ScrollControls } from "@react-three/drei";
 import { EffectComposer, Noise } from "@react-three/postprocessing";
+import { Overlay } from "./components/Overlay";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Noise opacity={0.05}/>
         </EffectComposer>
       </Canvas>
+      <Overlay />
     </>
   );
 }
