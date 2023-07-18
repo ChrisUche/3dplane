@@ -34,6 +34,9 @@ export const Experience = () => {
     []
   );
 
+  const sceneOpacity = useRef(0);
+  const lineMaterialRef = useRef();
+
   const curve = useMemo(() => {
     return new THREE.CatmullRomCurve3(curvePoints, false, "catmullrom", 0.5);
   }, [curvePoints]);
@@ -283,6 +286,9 @@ export const Experience = () => {
   const scroll = useScroll();
     // scroll and rotation algorithm
   useFrame((_state, delta) => {
+
+    lineMaterialRef.current.opacity = sceneOpacity.current;
+
     let resetCameraRail = true;
     let friction = 1;
 
@@ -451,7 +457,7 @@ export const Experience = () => {
           />
           <meshStandardMaterial 
             color={"white"} 
-            opacity={0.7} 
+            ref={lineMaterialRef}
             transparent 
             envMapIntensity={2}
             onBeforeCompile={fadeOnBeforeCompile} // the shader apper only when close effect
@@ -462,26 +468,29 @@ export const Experience = () => {
       {/* clouds */}
       {
         clouds.map((cloud, index) => (
-          <Cloud2 {...cloud} key={index} />
+          // sceneOpacity makes the clouds invinsible till "explore" is clicked
+          <Cloud2 sceneOpacity={sceneOpacity} {...cloud} key={index} />
         ))
       }
-      <Cloud opacity={0.5} scale={[0.3, 0.3, 0.3]} position={[-2, 1, -30]} />
-      <Cloud2 opacity={0.5} scale={[0.2, 0.3, 0.4]} position={[1.5, -0.5, -20]} />
-      <Cloud2 scale={[1, 1, 1.5]} position={[-3.5, -1.2, -7]} />
-      <Cloud2 scale={[1, 1, 2]} position={[3.5, -1, -10]} rotation-y={Math.PI} />
+      <Cloud sceneOpacity={sceneOpacity} opacity={0.5} scale={[0.3, 0.3, 0.3]} position={[-2, 1, -30]} />
+      <Cloud2 sceneOpacity={sceneOpacity} opacity={0.5} scale={[0.2, 0.3, 0.4]} position={[1.5, -0.5, -20]} />
+      <Cloud2 sceneOpacity={sceneOpacity} scale={[1, 1, 1.5]} position={[-3.5, -1.2, -7]} />
+      <Cloud2 sceneOpacity={sceneOpacity} scale={[1, 1, 2]} position={[3.5, -1, -10]} rotation-y={Math.PI} />
       <Cloud2
+        sceneOpacity={sceneOpacity}
         scale={[1, 1, 1]}
         rotation-y={Math.PI / 3}
         position={[-3.5, -0.2, -12]}
       />
-      <Cloud scale={[1, 1, 1]} position={[3.5, -0.2, -12]} />
+      <Cloud sceneOpacity={sceneOpacity} scale={[1, 1, 1]} position={[3.5, -0.2, -12]} />
       <Cloud
+        sceneOpacity={sceneOpacity}
         opacity={0.7}
         scale={[0.4, 0.4, 0.4]}
         rotation-y={Math.PI / 9}
         position={[1, -0.2, -12]}
       />
-      <Cloud opacity={0.3} scale={[0.8, 0.8, 0.8]} position={[0, 1, -100]} />
+      <Cloud sceneOpacity={sceneOpacity} opacity={0.3} scale={[0.8, 0.8, 0.8]} position={[0, 1, -100]} />
     </>
   );
 };
