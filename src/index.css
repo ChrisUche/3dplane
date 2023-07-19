@@ -34,6 +34,10 @@ body {
     bottom: 0;
   }
 
+  .overlay--disable {
+    pointer-events: none;
+  }
+
 
   .loader {
     position: absolute;

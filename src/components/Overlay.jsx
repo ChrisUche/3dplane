@@ -6,7 +6,8 @@ export const Overlay = () => {
     const { progress } = useProgress();
     const { play , setPlay} = usePlay();
     return (
-        <div className="overlay">
+        // when "play" has been activated disable overlay
+        <div className={`overlay ${play ? "overlay--disable" : ""}`}> 
             {/* loader should diappear if the progress = 100 */}
             <div className={`loader ${progress === 100 ? "loader--disappear": ""}`}/> 
             {/* render the intro ui element only if its loaded */}
