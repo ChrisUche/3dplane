@@ -71,6 +71,11 @@ body {
     transition: all 2s ease-in-out;
   }
 
+  .intro--disappear .logo {
+    top: 42px;
+    transform: scale(0.25);
+    transform-origin: center top;
+  }
 
   .spinner {
     position: absolute;
@@ -88,6 +93,11 @@ body {
     background-size: contain;
     background-image: url("/public/images/wawa.svg");
     animation: rotate 10s linear infinite;
+  }
+
+  .intro--disappear .spinner {
+    opacity: 1;
+    animation: fadeOut 1s ease-in-out forwards;
   }
   
   
@@ -135,6 +145,11 @@ body {
     z-index: -1;
     transform: translateX(-50%) translateY(50%);
   }
+
+  .intro--disappear .explore {
+    animation: fadeOut 1s ease-in-out forwards;
+  }
+
 
 
   /* ANIMATIONS */
