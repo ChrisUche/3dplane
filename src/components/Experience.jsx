@@ -286,6 +286,7 @@ export const Experience = () => {
   const cameraRail = useRef();
   const scroll = useScroll();
   const {play} = usePlay();
+  
 
     // {/* scroll and rotation algorithm*/}
   useFrame((_state, delta) => {
