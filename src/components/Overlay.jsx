@@ -4,7 +4,7 @@ import { usePlay } from "../contexts/Play";
 export const Overlay = () => {
 
     const { progress } = useProgress();
-    const { play , setPlay, hasScroll} = usePlay();
+    const { play , end, setPlay, hasScroll} = usePlay();
     return (
         // when "play" has been activated disable overlay
         <div className={`overlay ${play ? "overlay--disable" : ""} ${hasScroll ? "overlay--disable" : ""}`}> 
@@ -26,6 +26,11 @@ export const Overlay = () => {
                 }}>Explore</button>
             </div>
                 )}
+                <div className={`outro ${end ? "outro--appear" : ""}`}>
+                    <p className="outro__text">
+                        Thanks for Hoping on an Airplane to get to know me!
+                    </p>
+                </div>
         </div>
     );
 };

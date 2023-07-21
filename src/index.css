@@ -96,7 +96,7 @@ body {
     width: 164px;
     height: 164px;
     background-size: contain;
-    background-image: url("/public/images/wawa.svg");
+    background-image: url("/images/wawa.svg");
     animation: rotate 10s linear infinite;
   }
 
@@ -172,6 +172,29 @@ body {
 
   .intro--disappear .explore {
     animation: fadeOut 1s ease-in-out forwards;
+  }
+
+  .outro{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 4s ease-in-out;
+  }
+
+  .outro--appear{
+    opacity: 1;
+  }
+
+  .outro__text{
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 2rem;
+    color: whitesmoke;
   }
 
 

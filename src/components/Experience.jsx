@@ -285,20 +285,32 @@ export const Experience = () => {
   const cameraGroup = useRef();
   const cameraRail = useRef();
   const scroll = useScroll();
-  const {play} = usePlay();
+  const {play, end, setEnd, } = usePlay();
   
 
     // {/* scroll and rotation algorithm*/}
   useFrame((_state, delta) => {
 
-    lineMaterialRef.current.opacity = sceneOpacity.current;
 
     // fade in cloud and curve
-    if (play && sceneOpacity.current < 1) {
+    if (play && !end && sceneOpacity.current < 1) {
       sceneOpacity.current = THREE.MathUtils.lerp(
         sceneOpacity.current, 1, delta * 0.1
       );
     };
+
+    lineMaterialRef.current.opacity = sceneOpacity.current;
+
+    if (end && sceneOpacity.current > 0) {
+      sceneOpacity.current = THREE.MathUtils.lerp(
+        sceneOpacity.current, 0, delta
+      );
+    };
+
+    if (end) {
+      return;
+    }
+
 
     let resetCameraRail = true;
     let friction = 1;
@@ -390,6 +402,12 @@ export const Experience = () => {
       )
     );
     airplane.current.quaternion.slerp(targetAirplaneQuaternion, delta * 2);
+
+    if (cameraGroup.current.position.z < curvePoints[curvePoints.length - 1].z + 100 )
+      {
+      setEnd(true);
+      planeOutTl.current.play();
+    }
   });
 
   const airplane = useRef();
@@ -401,6 +419,7 @@ export const Experience = () => {
   });
 
   const planeInTl = useRef();
+  const planeOutTl = useRef();
 
   useLayoutEffect(() => {
     tl.current = gsap.timeline();
@@ -431,6 +450,33 @@ export const Experience = () => {
       z: 5,
       y: -4,
     })
+
+    planeOutTl.current = gsap.timeline();
+    planeOutTl.current.pause();
+
+    planeOutTl.current.to(
+      airplane.current.position,
+      {
+        duration: 10,
+        z: -250,
+        y: 10,
+      },
+      0
+    );
+    planeOutTl.current.to(
+      cameraRail.current.position,
+      {
+        duration: 8,
+        y: 12,
+      },
+      0
+    );
+    planeOutTl.current.to(airplane.current.position, {
+      duration: 1,
+      z: -1000,
+    });
+
+
   }, []);
 
   useEffect(() => {

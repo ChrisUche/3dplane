@@ -6,7 +6,7 @@ import { Overlay } from "./components/Overlay";
 import { usePlay } from "./contexts/Play";
 
 function App() {
-  const {play}=  usePlay();
+  const {play, end}=  usePlay();
   return (
     <>
       <Canvas camera={{
@@ -16,7 +16,7 @@ function App() {
         <color attach="background" args={["#ececec"]} />
         {/* ScrollControls IS HOW MUCH YOU CAN SCROLL */}
         <ScrollControls 
-          pages={play ? 20 : 0} 
+          pages={play && !end ? 20 : 0} 
           damping={0.5}
           style={{
             top: "10px",
