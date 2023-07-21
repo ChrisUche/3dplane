@@ -286,10 +286,23 @@ export const Experience = () => {
   const cameraRail = useRef();
   const scroll = useScroll();
   const {play, end, setEnd, } = usePlay();
+  const camera = useRef()
   
 
     // {/* scroll and rotation algorithm*/}
   useFrame((_state, delta) => {
+
+
+    if (window.innerWidth > window.innerHeight) {
+      //landscape
+      camera.current.fov =30;
+      camera.current.position.z = 5;
+    } else {
+      //portrait
+      camera.current.fov =80;
+      camera.current.position.z = 2;
+
+    }
 
 
     // fade in cloud and curve
@@ -492,7 +505,7 @@ export const Experience = () => {
       <group ref={cameraGroup}>
         <Background  backgroundColors={backgroundColors} />
         <group ref={cameraRail}>
-          <PerspectiveCamera position={[0, 0, 5]} fov={30} makeDefault />
+          <PerspectiveCamera ref={camera} position={[0, 0, 5]} fov={30} makeDefault />
         </group>
          {/* wrap in a 'float' to create a flying sensation */}
         <group ref={airplane}>

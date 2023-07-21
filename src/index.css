@@ -240,3 +240,27 @@ body {
   }
 }
 
+
+/* RESPONSIVE */
+
+@media screen and (max-width: 768px) {
+  .logo{
+    font-size: 3rem;
+    letter-spacing: 0.25rem;
+  }
+
+  .intro--disappear .logo {
+    top: 24px;
+    transform: scale(0.5);
+    transform-origin: center top;
+  }
+  
+  .spinner__image{
+    width: 82px;
+    height: 82px;
+  }
+
+  .outro__text{
+    font-size: 1rem;
+  }
+}
