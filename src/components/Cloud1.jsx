@@ -6,6 +6,7 @@ Command: npx gltfjsx@6.2.7 public/models/cloud/model.glb
 import React, { useRef } from 'react'
 import { useGLTF } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber';
+import { fadeOnBeforeCompile } from '../utils/fadeMaterial';
 
 export function Cloud1({sceneOpacity, ...props}) {
   const { nodes, materials } = useGLTF('./models/cloud1/model.glb')
@@ -21,6 +22,7 @@ export function Cloud1({sceneOpacity, ...props}) {
         <meshStandardMaterial 
             // {...materials['lambert2sg.001']} 
             ref={materialRef}
+            onBeforeCompile={fadeOnBeforeCompile} // the shader apper only when close effect
             envMapIntensity={2} //math the coluds more impacted by the environment colors
             transparent />
       </mesh>

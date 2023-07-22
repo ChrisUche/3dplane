@@ -10,6 +10,7 @@ import { Cloud } from "./Cloud";
 import { TextSection } from "./TextSection";
 import { gsap } from "gsap";
 import { Cloud2 } from "./Cloud2";
+import { Cloud1 } from "./Cloud1";
 import { fadeOnBeforeCompile } from "../utils/fadeMaterial";
 import { usePlay } from "../contexts/Play";
 
@@ -245,15 +246,15 @@ export const Experience = () => {
       rotation: new Euler(Math.PI / 3, 0, Math.PI / 3),
     },
     // FINAL
-    {
-      scale: new Vector3(3, 3, 3),
-      position: new Vector3(
-        curvePoints[7].x + 12,
-        curvePoints[7].y - 5,
-        curvePoints[7].z + 60
-      ),
-      rotation: new Euler(-Math.PI / 4, -Math.PI / 6, 0),
-    },
+    // {
+    //   scale: new Vector3(3, 3, 3),
+    //   position: new Vector3(
+    //     curvePoints[7].x + 12,
+    //     curvePoints[7].y - 5,
+    //     curvePoints[7].z + 60
+    //   ),
+    //   rotation: new Euler(-Math.PI / 4, -Math.PI / 6, 0),
+    // },
     {
       scale: new Vector3(3, 3, 3),
       position: new Vector3(
@@ -578,6 +579,12 @@ export const Experience = () => {
         position={[1, -0.2, -12]}
       />
       <Cloud sceneOpacity={sceneOpacity} opacity={0.3} scale={[0.8, 0.8, 0.8]} position={[0, 1, -100]} />
+
+      <Cloud1 sceneOpacity={sceneOpacity} opacity={0.3} scale={[3.8, 3.8, 3.8]} position={[10, 5, -50]}/>
+      <Cloud1 sceneOpacity={sceneOpacity} opacity={0.3} scale={[3.8, 3.8, 3.8]} position={[5, 15, -300]}/>
+      <Cloud1 sceneOpacity={sceneOpacity} opacity={0.3} scale={[3.8, 3.8, 3.8]} position={[20, 2, -380]}/>
+      <Cloud1 sceneOpacity={sceneOpacity} opacity={0.3} scale={[3.8, 3.8, 3.8]} position={[70, 10, -430]}/>
+      
     </>
   );
 };

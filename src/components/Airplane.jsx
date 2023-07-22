@@ -8,7 +8,7 @@ import { useGLTF } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
 
 // rotate speed
-const HELIX_SPEED = 6;
+const HELIX_SPEED = 15;
 
 export function Airplane(props) {
   const { nodes, materials } = useGLTF('./models/airplane/model.glb')
@@ -23,9 +23,9 @@ export function Airplane(props) {
     <group {...props} dispose={null}>
       <mesh 
         geometry={nodes.PUSHILIN_Plane_Circle000.geometry} 
-        // material={materials.plane} 
+        material={materials.plane} 
         >
-          <meshStandardMaterial color="white"/>
+          {/* <meshStandardMaterial color="white"/> */}
       </mesh>
       <mesh 
         ref={helix}
@@ -33,7 +33,7 @@ export function Airplane(props) {
         material={materials.plane} 
         position={[1.09, 0.23, 0]} 
         >
-          <meshStandardMaterial color="white"/>
+          {/* <meshStandardMaterial color="white"/> */}
       </mesh>
 
     </group>
