@@ -40,14 +40,31 @@ body {
   }
 
 
-  .loader {
+  /* .loader {
     position: absolute;
     top: 0;
     left: 0;
     bottom: 0;
     right: 0;
-    background: white;
     transition: opacity 2s ease-in-out;
+    width: 164px;
+    height: 164px;
+    background-size: contain;
+    background-image: url("/images/wawa.svg");
+    animation: rotate 10s linear infinite;
+  } */
+
+  .loader {
+    position: fixed; /* Use 'fixed' instead of 'absolute' to center it on the screen */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Center the element using transform */
+    width: 164px;
+    height: 164px;
+    background-size: contain;
+    background-image: url("/images/wawa.svg");
+    animation: rotate 10s linear infinite;
+    /* Add any other styles you might need for the loader */
   }
 
   .loader--disappear {
