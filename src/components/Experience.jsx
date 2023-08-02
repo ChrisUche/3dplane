@@ -52,8 +52,8 @@ export const Experience = () => {
           curvePoints[1].y,
           curvePoints[1].z
         ),
-        subtitle: `Welcome to Chris,
-          Have a seat and enjoy the ride!`,
+        title: "Welcome",
+        subtitle: `Buckle up as I take you on my Journey as a Frontend Developer.`,
       },
       {
         cameraRailDist: 1.5,
@@ -62,9 +62,11 @@ export const Experience = () => {
           curvePoints[2].y,
           curvePoints[2].z
         ),
-        title: "Services",
-        subtitle: `Do you want a drink?
-          We have a wide range of beverages!`,
+        title: "HomeChow.ca (junior Frontend Developer)",
+        subtitle: `• Handled Production of various web pages
+        • Utilising Next js with typescript & React as a Front-end technology
+        • Responsible for testing the application using e2e tool, i.e., cypress.
+        • Utilizing Git`,
       },
       {
         cameraRailDist: -1,
@@ -83,8 +85,8 @@ export const Experience = () => {
           curvePoints[4].y,
           curvePoints[4].z - 12
         ),
-        title: "Movies",
-        subtitle: `We provide a large selection of medias, we highly recommend you Porco Rosso during the flight`,
+        // title: "Movies",
+        // subtitle: `We provide a large selection of medias, we highly recommend you Porco Rosso during the flight`,
       },
     ],
     [curvePoints]
