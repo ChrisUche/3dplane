@@ -54,28 +54,7 @@ body {
     animation: rotate 10s linear infinite;
   } */
 
-  /* .loader { */
-    /* position: fixed; Use 'fixed' instead of 'absolute' to center it on the screen */
-    /* top: 50%; */
-    /* left: 50%; */
-    /* transform: translate(-50%, -50%); Center the element using transform */
-    /* width: 164px; */
-    /* height: 164px; */
-    /* background-size: contain; */
-    /* background-image: url("/images/spinner.jpg"); */
-    /* animation: rotate 10s linear infinite; */
-    /* Add any other styles you might need for the loader */
-  /* } */
 
-    /* Define the keyframes for rotation animation */
-@keyframes rotate1 {
-  0% {
-    transform: translate(-50%, -50%) rotate(0deg);
-  }
-  100% {
-    transform: translate(-50%, -50%) rotate(360deg);
-  }
-}
 
 /* Styling for the loader */
 .loader {
@@ -88,7 +67,6 @@ body {
   background-size: contain;
   background-image: url("/images/spinner.jpg");
   animation: rotate1 10s linear infinite; /* Apply the rotation animation */
-  /* Add any other styles you might need for the loader */
 }
 
 
@@ -279,6 +257,15 @@ body {
 @keyframes rotate {
   100% {
     transform: rotate(360deg);
+  }
+}
+
+@keyframes rotate1 {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
   }
 }
 
