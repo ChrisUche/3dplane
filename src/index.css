@@ -65,8 +65,8 @@ body {
   width: 164px;
   height: 164px;
   background-size: contain;
-  background-image: url("/images/spinner.jpg");
-  animation: rotate1 10s linear infinite; /* Apply the rotation animation */
+  background-image: url("/images/Rotating-Pizza.webp");
+  /* animation: rotate1 10s linear infinite;  */
 }
 
 
