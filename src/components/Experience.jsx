@@ -59,13 +59,16 @@ export const Experience = () => {
         cameraRailDist: 1.5,
         position: new Vector3(
           curvePoints[2].x + 2,
-          curvePoints[2].y,
+          curvePoints[2].y + 3,
           curvePoints[2].z
         ),
-        title: "HomeChow.ca (junior Frontend Developer)",
-        subtitle: `• Handled Production of various web pages
-        • Utilising Next js with typescript & React as a Front-end technology
+        title: "HomeChow.ca (Frontend Developer Intern)",
+        subtitle: `• Worked closely with a cross-functional team to design and implement new features, ensuring alignment with project objectives.
+        • Handled Production of various web pages
+        • Diagnosed and resolved issues, optimizing application performance and enhancing user experiences.
+        • Leveraged React,typescript,Next js for web development, creating user-friendly and responsive web interfaces.
         • Responsible for testing the application using e2e tool, i.e., cypress.
+        • Actively participated in Agile methodologies, such as daily stand-up meetings, sprint planning, and retrospectives.
         • Utilizing Git`,
       },
       {
@@ -76,17 +79,23 @@ export const Experience = () => {
           curvePoints[3].z
         ),
         title: "Fear of flying?",
-        subtitle: `Our flight attendants will help you have a great journey`,
+        subtitle: `Our flight attendants will help you, have a great journey`,
       },
       {
         cameraRailDist: 1.5,
         position: new Vector3(
           curvePoints[4].x + 3.5,
-          curvePoints[4].y,
-          curvePoints[4].z - 12
+          curvePoints[4].y + 2.3,
+          curvePoints[4].z - 10
         ),
-        // title: "Movies",
-        // subtitle: `We provide a large selection of medias, we highly recommend you Porco Rosso during the flight`,
+        title: "SubShare(Junior frontend developer)",
+        subtitle:`
+        • Collaborated with an amazing team to develop user-friendly web app.
+        • Experienced in React Native, React, and Next.js. Contributed to cross-platform mobile app development, optimized web applications for performance, and improved UI/UX.
+        • Implemented Redux for streamlined data flow and consistent app performance..
+        • Diagnosed and resolved issues, optimizing application performance and enhancing user experiences..
+        • Creating reusable components that result in faster development times.
+        ` ,
       },
     ],
     [curvePoints]
@@ -590,3 +599,12 @@ export const Experience = () => {
     </>
   );
 };
+
+
+// `• Extensive use of source control and version control tools like GitHub
+//         • Extensive Use of Languages typescript, Javascript 
+//         • Utilising Next js ,React-Native React as a Front-end technology
+//         • We used Redux as a state management tool when developing the mobile app
+//         • Colaboraed as a team to effectively 
+//         • Responsible for testing the application using e2e tool, i.e., cypress.
+//         • Utilizing Git`
